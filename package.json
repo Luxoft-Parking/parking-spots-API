@@ -1,0 +1,30 @@
+{
+    "name": "luxoft-parking-api",
+    "description": "",
+    "version": "1.0.0",
+    "author": "Benjamín Ubach <benubach@gmail.com>",
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/benubach/luxoft-parking-api.git"
+    },
+    "bugs": "http://github.com/benubach/luxoft-parking-api/issues",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org"
+    },
+    "dependencies": {
+        "@hapi/boom": "^7.1.1",
+        "@hapi/hapi": "^18.0.0",
+        "@hapi/joi": "^16.0.1",
+        "hapi-auth-jwt2": "^8.6.2",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.15",
+        "moment": "^2.24.0",
+        "mongoose": "^5.7.1"
+    },
+    "devDependencies": {
+        "eslint": "^6.4.0"
+    },
+    "scripts": {},
+    "main": "./server"
+}
