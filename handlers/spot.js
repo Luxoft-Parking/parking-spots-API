@@ -1,6 +1,4 @@
-const Boom = require('@hapi/boom');
-
-const ParkingSpotModel = require('../../models/ParkingSpot');
+const ParkingSpotModel = require('../models/ParkingSpot');
 /**
  * Operations on /user/login
  */
@@ -18,6 +16,6 @@ module.exports = {
 
         const spots = await ParkingSpotModel.find({}).exec();
 
-        return h.response(spots) ;
+        return h.response(spots);
     }
 };

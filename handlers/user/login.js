@@ -13,15 +13,21 @@ module.exports = {
      * produces: application/json
      * responses: 200, 400
      */
-    post: async function loginUser(request, h) {
-        const {payload: {username, password}} = request;
-        const userFound = await UserModel.exists({username, password});
+    post: {
+        handler: async function loginUser(request, h) {
+            const { payload: { username, password } } = request;
+            const user = await UserModel.findOne({ username, password, isValidEmail: true });
 
-        if(!userFound){
-            return Boom.badRequest('Wrong username/password');
+            if (!user) {
+                return Boom.badRequest('Wrong username/password');
+            }
+
+            const userJwt = JWT.sign({ username }, 'ohsosecret', { expiresIn: 120, subject: user.id });
+
+            return h.response(userJwt).type('text/plain').header('x-user-jwt', userJwt);
+        },
+        config: {
+            auth: false
         }
-        const userJwt = JWT.sign({username}, 'ohsosecret', {expiresIn: 120});
-
-        return h.response(userJwt).type('text/plain').header('x-user-jwt', userJwt);
     }
 };

@@ -35,6 +35,16 @@ const UserSchema = new Schema({
     reputation: {
         required: true,
         type: Number
+    },
+    isDriver: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isValidEmail: {
+        required: true,
+        type: Boolean,
+        default: false
     }
 });
 

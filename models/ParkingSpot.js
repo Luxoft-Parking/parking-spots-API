@@ -11,13 +11,13 @@ const ParkingSpotSchema = new Schema({
         required: true,
         type: String
     },
-    number:{
+    number: {
         required: true,
         type: String
     },
     assignedUser: Schema.Types.ObjectId,
     isFree: Boolean,
     usedBy: Schema.Types.ObjectId
-})
+});
 
 module.exports = mongoose.model('ParkingSpot', ParkingSpotSchema);
