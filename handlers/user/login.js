@@ -22,7 +22,7 @@ module.exports = {
                 return Boom.badRequest('Wrong username/password');
             }
 
-            const userJwt = JWT.sign({ username }, 'ohsosecret', { expiresIn: 120, subject: user.id });
+            const userJwt = JWT.sign({ username }, 'ohsosecret', { expiresIn: '7 days', subject: user.id });
 
             return h.response(userJwt).type('text/plain').header('x-user-jwt', userJwt);
         },

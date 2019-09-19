@@ -9,7 +9,8 @@ const init = async () => {
         host: 'localhost',
         routes: {
             cors: {
-                origin: ['*']
+                origin: ['*'],
+                headers: ['Accept', 'Authorization', 'Content-Type', 'If-None-Match', 'x-user-jwt']
             }
         }
     });
