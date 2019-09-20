@@ -1,11 +1,11 @@
 const sendmail = require('sendmail')({ silent: false });
 
 module.exports.sendRegistrationEmail = function (emailAddress, verificationCode) {
-    sendmail({
-        from: 'bubach@luxoft.com',
-        to: emailAddress,
-        subject: 'Please validate your email address',
-        html: `
+  sendmail({
+    from: 'bubach@luxoft.com',
+    to: emailAddress,
+    subject: 'Please validate your email address',
+    html: `
     <body>
         <h1>Hi ${emailAddress}!</h1>
         <p>We're glad that you've decided to try the Luxoft Parking App!</p>
@@ -13,9 +13,8 @@ module.exports.sendRegistrationEmail = function (emailAddress, verificationCode)
         <p>We hope you enjoy the application!</p>
     </body>
 `,
-    }, function (err, reply) {
-        console.log(err && err.stack);
-        console.log(reply);
-    });
+  }, function (err, reply) {
+    console.error(err && err.stack);
+    console.warn(reply);
+  });
 };
-

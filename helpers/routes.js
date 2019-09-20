@@ -4,52 +4,51 @@ const _ = require('lodash');
 const debug = require('debug')('routeHelper');
 
 module.exports.readHandlers = function (handlersRoot = 'handlers') {
-    const routes = [];
-    const prefix = '/v1';
-    const rootDir = `${process.cwd()}/${handlersRoot}`;
+  const routes = [];
+  const prefix = '/v1';
+  const rootDir = `${process.cwd()}/${handlersRoot}`;
+  const pathComponents = [''];
+  const readDir = (dirName) => {
 
-    const pathComponents = [''];
+    fs.readdirSync(dirName).forEach(
+      (filename) => {
 
-    const readDir = (dirName) => {
+        const curFile = Path.join(dirName, filename);
+        const stats = fs.statSync(curFile);
 
+        if (stats.isFile()) {
+          const handler = require(Path.resolve(curFile));
 
-        fs.readdirSync(dirName).forEach(
-            (filename) => {
+          _.toPairs(handler).forEach(
+            ([method, handlerFunction]) => {
+              let routeOpts = {};
 
-                const curFile = Path.join(dirName, filename);
-                const stats = fs.statSync(curFile);
+              if (typeof handlerFunction !== 'function') {
+                ({ handler: handlerFunction, ...routeOpts } = handlerFunction);
+              }
 
-                if (stats.isFile()) {
-                    const handler = require(Path.resolve(curFile));
+              const p = `${prefix}${pathComponents.join('/')}/${filename.replace(/\.js$/, '')}`;
+              const route = {
+                method: method.toUpperCase(),
+                handler: handlerFunction,
+                path: p,
+                ...routeOpts
+              };
 
-                    _.toPairs(handler).forEach(
-                        ([method, handlerFunction]) => {
-                            let routeOpts = {};
-
-                            if (typeof handlerFunction !== 'function') {
-                                ({ handler: handlerFunction, ...routeOpts } = handlerFunction);
-                            }
-                            const p = `${prefix}${pathComponents.join('/')}/${filename.replace(/\.js$/, '')}`;
-                            const route = {
-                                method: method.toUpperCase(),
-                                handler: handlerFunction,
-                                path: p,
-                                ...routeOpts
-                            };
-                            routes.push(route);
-                            debug(`added route for ${method}: ${p}`);
-                            debug(route);
-                        }
-                    );
-                } else if (stats.isDirectory()) {
-                    pathComponents.push(filename);
-                    readDir(Path.resolve(curFile));
-                    pathComponents.pop();
-                }
+              routes.push(route);
+              debug(`added route for ${method}: ${p}`);
+              debug(route);
             }
-        );
-    };
-    readDir(rootDir);
-    return routes;
-};
+          );
+        } else if (stats.isDirectory()) {
+          pathComponents.push(filename);
+          readDir(Path.resolve(curFile));
+          pathComponents.pop();
+        }
+      }
+    );
+  };
 
+  readDir(rootDir);
+  return routes;
+};

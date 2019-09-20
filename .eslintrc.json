@@ -9,21 +9,21 @@
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
+        "indent": ["error", 2],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "no-multiple-empty-lines": ["error", {"max": 1, "maxEOF": 0, "maxBOF": 0}],
+        "no-console": ["warn", {"allow": ["warn", "error"]}],
+        "space-before-blocks": ["error", "always"],
+        "padding-line-between-statements": [
+          "error",
+          { "blankLine": "never", "prev": "return", "next": "*"},
+          { "blankLine": "always", "prev": "block-like", "next": ["const","let"]},
+          { "blankLine": "always", "prev": ["const","let"], "next": "block-like"},
+          { "blankLine": "always", "prev": ["const","let"], "next": "*"},
+          { "blankLine": "never", "prev": ["const","let"], "next": ["const","let"]}
+          // { "blankLine": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         ]
     }
 }
