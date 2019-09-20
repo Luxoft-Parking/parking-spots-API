@@ -18,5 +18,11 @@ module.exports = {
     }
     await user.save();
     return h.response(user).code(201);
+  },
+  delete: async function deleteUser(request, h) {
+    const { id: userId } = request.params;
+
+    await User.findByIdAndDelete(userId);
+    return h.reponse().code(204);
   }
 };
