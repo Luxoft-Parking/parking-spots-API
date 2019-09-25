@@ -5,16 +5,30 @@ const Spot = require('../models/ParkingSpot');
  */
 module.exports = {
 
-  get: async function listSpots(request, h) {
+  get: {
+    handler: async function listSpots(request, h) {
 
-    const spots = await Spot.find({}).exec();
+      const spots = await Spot.find({}).exec();
 
-    return h.response(spots);
+      return h.response(spots);
+    },
+    config: {
+      auth: {
+        scope: ['admin']
+      }
+    }
   },
-  post: async function createSpot(request, h) {
-    const { level, number } = request.payload;
-    const newSpot = await Spot.create({ level, number });
+  post: {
+    handler: async function createSpot(request, h) {
+      const { level, number } = request.payload;
+      const newSpot = await Spot.create({ level, number });
 
-    return h.response(newSpot).code(200);
+      return h.response(newSpot).code(200);
+    },
+    config: {
+      auth: {
+        scope: ['admin']
+      }
+    }
   }
 };
