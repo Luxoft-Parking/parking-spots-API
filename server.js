@@ -31,7 +31,7 @@ const init = async () => {
     return h.continue;
   });
   server.route(readHandlers());
-  await mongoose.connect('mongodb+srv://bubach:V0x_EcN%40@luxoft-parking-g1db5.mongodb.net/parking?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+  await mongoose.connect('mongodb+srv://luxoftParking:wi6TAYWeZAkOOagD@luxoft-parking-g1db5.mongodb.net/parking?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
   await server.start();
   console.log('Server running on %s', server.info.uri); // eslint-disable-line no-console
 };
