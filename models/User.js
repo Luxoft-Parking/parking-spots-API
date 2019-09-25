@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AssociatedSpotSchema = new Schema({
+  level: {
+    required: true,
+    type: String
+  },
+  number: {
+    required: true,
+    type: Number
+  }
+});
 const UserSchema = new Schema({
   fullName: {
     required: true,
@@ -50,7 +60,9 @@ const UserSchema = new Schema({
   team: {
     required: true,
     type: String
-  }
+  },
+  spot: AssociatedSpotSchema
+
 });
 
 module.exports = mongoose.model('User', UserSchema);

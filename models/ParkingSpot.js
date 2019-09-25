@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const ParkingSpotSchema = new Schema({
   rating: {
     required: true,
-    type: Number
+    type: Number,
+    default: 0
   },
   level: {
     required: true,
@@ -14,7 +15,11 @@ const ParkingSpotSchema = new Schema({
     type: String
   },
   assignedUser: Schema.Types.ObjectId,
-  isFree: Boolean,
+  isFree: {
+    required: true,
+    type: Boolean,
+    default: false
+  },
   usedBy: Schema.Types.ObjectId
 });
 

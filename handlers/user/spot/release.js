@@ -13,6 +13,7 @@ module.exports = {
       spot.usedBy = null;
     }
     spot.isFree = true;
+
     await spot.save();
     return h.response().code(200);
   }

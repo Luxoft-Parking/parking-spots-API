@@ -14,6 +14,7 @@ module.exports = {
       spot.usedBy = userId;
       spot.isFree = false;
       user.hasParkingSpot = true;
+      user.spot = spot;
       await spot.save();
       await user.save();
       return h.response(pick(spot, ['rating', 'level', 'number'])).code(200);
