@@ -13,11 +13,11 @@ module.exports = {
      * responses: default
      */
   get: async function logoutUser(request, h) {
-    const jwt = get(request, 'headers["x-user-jwt"]');
+    const jwt = get(request, 'auth.token');
 
     if (jwt && !(await ExpiredJwt.exists({ jwt: jwt }))) {
       await ExpiredJwt.create({ jwt });
     }
-    return h.response('OK');
+    return h.response().code(200);
   }
 };

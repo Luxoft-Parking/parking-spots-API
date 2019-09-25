@@ -15,7 +15,7 @@ module.exports = {
         await user.save();
         await EmailValidation.findByIdAndDelete(emailValidation.id);
       }
-      return h.response('OK');
+      return h.response().code(200);
     },
     config: {
       auth: false

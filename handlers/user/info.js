@@ -8,6 +8,10 @@ module.exports = {
     handler: async (request, h) => {
       const userId = get(request, 'auth.credentials.sub');
       const user = await User.findById(userId, 'fullName isDriver');
+
+      if (!user)
+        return h.response().code(404);
+
       const today = new moment().hours(0).minutes(0).seconds(0).format('x');
       const qrCodeData = cipherData(`${today}${userId}${today.split('').reverse().join('')}`);
 

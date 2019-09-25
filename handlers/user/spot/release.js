@@ -16,7 +16,7 @@ module.exports = {
       spot.isFree = true;
 
       await spot.save();
-      return h.response().code(200);
+      return h.response().code(201);
     },
     config: {
       auth: {
