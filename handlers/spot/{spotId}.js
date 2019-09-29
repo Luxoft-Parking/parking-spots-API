@@ -22,5 +22,18 @@ module.exports = {
         scope: ['admin']
       }
     }
+  },
+  delete: {
+    handler: async function deleteSpot(request, h) {
+      const { spotId } = request.params;
+
+      await Spot.findByIdAndDelete(spotId);
+      return h.response().code(204);
+    },
+    config: {
+      auth: {
+        scope: ['admin']
+      }
+    }
   }
 };

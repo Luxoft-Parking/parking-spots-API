@@ -31,7 +31,7 @@ module.exports = {
       const { userId } = request.params;
 
       await User.findByIdAndDelete(userId);
-      return h.reponse().code(204);
+      return h.response().code(204);
     },
     config: {
       auth: {
