@@ -1,6 +1,25 @@
 const User = require('../../models/User');
+const { pick } = require('lodash');
 
 module.exports = {
+  get: {
+    handler: async function getUserInfo(request, h) {
+      const { userId } = request.params;
+      const user = await User.findById(userId);
+
+      if (user) {
+        return h.response(pick(user, ['username', 'fullName'])).code(200);
+      }
+      else {
+        return h.response().code(404);
+      }
+    },
+    config: {
+      auth: {
+        scope: ['admin']
+      }
+    }
+  },
   put: {
     handler: async function editUser(request, h) {
       const { userId } = request.params;
