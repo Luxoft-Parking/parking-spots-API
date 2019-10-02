@@ -12,8 +12,8 @@ module.exports = {
       if (!user)
         return h.response().code(404);
 
-      const today = new moment().hours(0).minutes(0).seconds(0).format('x');
-      const qrCodeData = cipherData(`${today}${userId}${today.split('').reverse().join('')}`);
+      const today = new moment().hours(0).minutes(0).seconds(0).milliseconds(0).utcOffset(-60 * 5).format('x');
+      const qrCodeData = cipherData(`${today}:${userId}`);
 
       return h.response({ fullName: user.fullName, isDriver: user.isDriver, qrCodeData });
     },

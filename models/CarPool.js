@@ -9,7 +9,11 @@ const CarPoolSchema = new Schema({
     required: true,
     type: Schema.Types.ObjectId
   },
-  date: Date
+  date: {
+    required: true,
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model('CarPool', CarPoolSchema);
