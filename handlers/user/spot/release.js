@@ -1,5 +1,7 @@
 const { get } = require('lodash');
 const Spot = require('../../../models/ParkingSpot');
+const User = require('../../../models/User');
+const { sendFreeParkingNotifications } = require('../../../helpers/pushNotifications');
 
 module.exports = {
   put: {
@@ -10,12 +12,15 @@ module.exports = {
       if (!spot) {
         return h.response().code(404);
       }
-      if (spot.usedBy.toString() === userId) {
+      if (spot.usedBy && spot.usedBy.toString() === userId) {
         spot.usedBy = null;
       }
       spot.isFree = true;
 
       await spot.save();
+      const users = await User.find({ hasParkingSpot: false, expoToken: { $exists: true, $gt: '' } });
+
+      sendFreeParkingNotifications(users, spot.id.toString());
       return h.response().code(201);
     },
     config: {

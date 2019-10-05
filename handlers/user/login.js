@@ -16,7 +16,7 @@ module.exports = {
      */
   post: {
     handler: async function loginUser(request, h) {
-      const { payload: { username, password } } = request;
+      const { payload: { username, password, expoToken = '' } } = request;
       const user = await UserModel.findOne({ username, password, isValidEmail: true });
 
       if (!user) {

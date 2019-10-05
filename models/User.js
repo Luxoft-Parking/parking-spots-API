@@ -61,7 +61,11 @@ const UserSchema = new Schema({
     required: true,
     type: String
   },
-  spot: AssociatedSpotSchema
+  spot: AssociatedSpotSchema,
+  expoToken: {
+    type: String,
+    default: ''
+  }
 
 });
 
