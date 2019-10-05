@@ -6,10 +6,10 @@ const expo = new Expo();
 function getTokensForUsers(users) {
   return users.reduce(
     (tokens, user) => {
-      const token = `ExponentPushToken[${user.expoToken}]`;
+      const { expoToken } = user;
 
-      if (Expo.isExpoPushToken(token)) {
-        tokens[0].push(token);
+      if (Expo.isExpoPushToken(expoToken)) {
+        tokens[0].push(expoToken);
         tokens[1].push(user.fullName.split(' ')[0]);
       }
       return tokens;

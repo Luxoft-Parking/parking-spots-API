@@ -1,4 +1,3 @@
-const { Expo } = require('expo-server-sdk');
 const { pick } = require('lodash');
 const User = require('../models/User');
 

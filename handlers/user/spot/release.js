@@ -18,7 +18,7 @@ module.exports = {
       spot.isFree = true;
 
       await spot.save();
-      const users = await User.find({ hasParkingSpot: false, expoToken: { $exists: true, $gt: '' } });
+      const users = await User.find({ hasParkingSpot: false, isDriver: true, expoToken: { $exists: true, $ne: '' } });
 
       sendFreeParkingNotifications(users, spot.id.toString());
       return h.response().code(201);
