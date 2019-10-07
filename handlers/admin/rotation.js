@@ -6,10 +6,10 @@ const moment = require('moment');
 module.exports = {
   get: {
     handler: async function calculateRotation(request, h) {
-      const usersWithParking = await User.find({ active: true, isDriver: true, hasParkingSpot: true }, '-_id fullName username spot.level spot.number').sort({ reputation: -1, startDate: -1 }).lean();
-      const usersWithoutParking = await User.find({ active: true, isDriver: true, hasParkingSpot: false }, '-_id fullName username').sort({ reputation: -1, startDate: 1 }).lean();
+      const usersWithParking = await User.find({ active: true, isDriver: true, hasParkingSpot: true }, '-_id fullName reputation spot.level spot.number').sort({ reputation: -1, startDate: -1 }).lean();
+      const usersWithoutParking = await User.find({ active: true, isDriver: true, hasParkingSpot: false }, '-_id fullName reputation').sort({ reputation: -1, startDate: 1 }).lean();
       const totalSpaces = await Spot.estimatedDocumentCount();
-      const totalUsers = await User.count({ active: true, isDriver: true });
+      const totalUsers = await User.countDocuments({ active: true, isDriver: true });
       let rotationCount = totalUsers - totalSpaces;
       let everyone = [...usersWithoutParking, ...usersWithParking];
       const nextWithParking = take(everyone, totalSpaces);
@@ -26,12 +26,14 @@ module.exports = {
   post: {
     handler: async function applyRotation(request, h) {
       const TODAY = moment().millisecond(0).second(0);
-      const usersWithParking = await User.find({ active: true, isDriver: true, hasParkingSpot: true }, 'fullName username spot').sort({ reputation: -1, startDate: -1 });
-      const usersWithoutParking = await User.find({ active: true, isDriver: true, hasParkingSpot: false }, 'fullName username').sort({ reputation: -1, startDate: 1 });
+      const usersWithParking = await User.find({ active: true, isDriver: true, hasParkingSpot: true }, 'fullName reputation spot').sort({ reputation: -1, startDate: -1 });
+      const usersWithoutParking = await User.find({ active: true, isDriver: true, hasParkingSpot: false }, 'fullName reputation').sort({ reputation: -1, startDate: 1 });
       const totalSpaces = await Spot.estimatedDocumentCount();
       const assignedSpaces = await Spot.countDocuments({ isFree: false });
       const freeSpaces = totalSpaces - assignedSpaces;
       const toReassign = usersWithoutParking.length - freeSpaces;
+
+      await User.updateMany({ hasParkingSpot: true }, { reputation: 0 });
 
       console.log(`Rotation: Total Spaces: ${totalSpaces} Free spaces: ${freeSpaces} Users with spot: ${usersWithParking.length} Users without spot: ${usersWithoutParking.length} Spots to reassign: ${toReassign}`);
       // First, let's use up all the free spots
