@@ -25,7 +25,7 @@ module.exports = {
     },
     config: {
       auth: {
-        scope: ['admin', 'user']
+        scope: ['user']
       }
     }
   }
